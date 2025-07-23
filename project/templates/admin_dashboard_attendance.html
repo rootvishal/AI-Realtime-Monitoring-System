@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Attendance</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            background-size: cover;
+        }
+        
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        h2 {
+            text-align: center;
+            color: rgb(174, 58, 58);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .attendance-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            color: rgb(135, 27, 27);
+        }
+        
+        .attendance-table th,
+        .attendance-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        
+        .attendance-table th {
+            background-color: #6a5acd;
+            color: rgb(126, 40, 40);
+        }
+        
+        .attendance-btns button {
+            margin-left: 10px;
+            padding: 8px 16px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            background-color: #6a5acd;
+            color: rgb(191, 30, 30);
+        }
+        
+        .attendance-btns button:hover {
+            background-color: #5342a2;
+        }
+        
+        .attendance-btns button.present {
+            background-color: #4caf50;
+        }
+        
+        .attendance-btns button.absent {
+            background-color: #f44336;
+        }
+        
+        #attendanceChart {
+            width: 100%;
+            height: 400px;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h2>Admin Attendance Dashboard</h2>
+
+        <!-- Attendance Filter -->
+        <div class="form-group">
+            <label for="date">Date:</label>
+            <input type="date" id="date">
+            <label for="period">Period:</label>
+            <select id="period">
+      <option value="1">Period 1</option>
+      <option value="2">Period 2</option>
+      <option value="3">Period 3</option>
+      <option value="4">Period 4</option>
+      <option value="5">Period 5</option>
+      <option value="6">Period 6</option>
+      
+    </select>
+            <button onclick="getAttendance()">View Attendance</button>
+        </div>
+
+        <!-- Attendance Table -->
+        <table class="attendance-table" id="attendanceTable">
+            <thead>
+                <tr>
+                    <th>Student ID</th>
+                    <th>Name</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Attendance records will go here -->
+                {% for record in attendance %}
+                <tr>
+                    <td>{{ record.student_id }}</td>
+                    <td>{{ record.name }}</td>
+                    <td>{{ record.status }}</td>
+                    <td class="attendance-btns">
+                        <button class="present" onclick="markAttendance('{{ record.student_id }}', 'Present')">Present</button>
+                        <button class="absent" onclick="markAttendance('{{ record.student_id }}', 'Absent')">Absent</button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!-- Graphical Attendance -->
+        <canvas id="attendanceChart"></canvas>
+    </div>
+
+    <script>
+        async function getAttendance() {
+            const date = document.getElementById('date').value;
+            const period = document.getElementById('period').value;
+
+            const response = await fetch(`/attendance?date=${date}&period=${period}`);
+            const data = await response.json();
+
+            // Populate Table with Attendance Data
+            const tableBody = document.querySelector('#attendanceTable tbody');
+            tableBody.innerHTML = '';
+            data.forEach(record => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+        <td>${record.student_id}</td>
+        <td>${record.name}</td>
+        <td>${record.status}</td>
+        <td class="attendance-btns">
+          <button class="present" onclick="markAttendance(${record.student_id}, 'Present')">Present</button>
+          <button class="absent" onclick="markAttendance(${record.student_id}, 'Absent')">Absent</button>
+        </td>
+      `;
+                tableBody.appendChild(row);
+            });
+
+            // Display Graph
+            displayGraph(data);
+        }
+
+        async function markAttendance(studentId, status) {
+            const date = document.getElementById('date').value;
+            const period = document.getElementById('period').value;
+
+            const response = await fetch('/update_attendance', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    student_id: studentId,
+                    date,
+                    period,
+                    status
+                })
+            });
+            const message = await response.json();
+            alert(message.message);
+            getAttendance(); // Refresh attendance data
+        }
+
+        function displayGraph(data) {
+            const presentCount = data.filter(record => record.status === 'Present').length;
+            const absentCount = data.filter(record => record.status === 'Absent').length;
+
+            const ctx = document.getElementById('attendanceChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['Present', 'Absent'],
+                    datasets: [{
+                        label: 'Attendance Count',
+                        data: [presentCount, absentCount],
+                        backgroundColor: ['#4caf50', '#f44336'],
+                        borderColor: ['#4caf50', '#f44336'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+
+</body>
+
+</html>

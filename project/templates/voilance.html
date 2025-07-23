@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Violence Detection Clips</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f3f3f3;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .video-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+        
+        .video-card {
+            background: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        video {
+            width: 320px;
+            height: auto;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Violence Detection - Video Clips</h1>
+    <div class="video-grid">
+        {% for video in videos %}
+        <div class="video-card">
+            <video controls preload="metadata">
+                <source src="{{ url_for('stream_video', filename=video) }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <p>{{ video }}</p>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+
+</html>

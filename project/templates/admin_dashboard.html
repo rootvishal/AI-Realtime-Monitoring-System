@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: url('{{ url_for("static", filename="1.jpg") }}') no-repeat center center fixed;
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            display: flex;
+            height: 100vh;
+            background-color: #6a5acd;
+        }
+        
+        .sidebar {
+            width: 250px;
+            background-color: #6a5acd;
+            padding: 20px;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .sidebar h2 {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .sidebar .dashboard {
+            background-color: #ffffff30;
+            padding: 10px;
+            border-radius: 10px;
+        }
+        
+        .sidebar .section {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            cursor: pointer;
+        }
+        
+        .sidebar .section a {
+            color: white;
+            text-decoration: none;
+        }
+        
+        .main-content {
+            flex: 1;
+            background-color: #fff;
+            padding: 20px;
+        }
+        
+        .main-content h2 {
+            color: black;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <h2>BE AIML</h2>
+            <div class="dashboard">Dashboard</div>
+            <div class="section">
+                <i class="fas fa-user-check" style="font-size: 20px; color: white;"></i>
+                <a href="/admin_dashboard_attendance">Attendance</a>
+            </div>
+            <div class="section">
+                <i class="fas fa-chalkboard-teacher" style="font-size: 20px; color: white;"></i>
+                <a href="/class">Class</a>
+            </div>
+            <div class="section">
+                <i class="fas fa-video" style="font-size: 20px; color: white;"></i>
+                <a href="/cctv-live">CCTV Live</a>
+            </div>
+            <!-- Changed ERP to Violence Page -->
+            <div class="section">
+                <i class="fas fa-exclamation-triangle" style="font-size: 20px; color: white;"></i>
+                <a href="/violence">Violence Detection</a>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <h2>Dashboard</h2>
+        </div>
+    </div>
+
+</body>
+
+</html>

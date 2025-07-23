@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Profile - AI Monitoring System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('{{ url_for("static", filename="1.jpg") }}');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+        }
+        
+        .overlay {
+            background-color: rgba(159, 149, 149, 0.6);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+        
+        .container {
+            background-image: url('{{ url_for("static", filename="container_background.jpg") }}');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 600px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+        
+        h1 {
+            margin-bottom: 20px;
+            font-size: 2rem;
+            color: white;
+            ;
+        }
+        
+        .profile-photo {
+            border-radius: 50%;
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            margin-bottom: 20px;
+            border: 3px solid #888;
+        }
+        
+        .registration-info,
+        .attendance {
+            text-align: left;
+            margin-top: 20px;
+        }
+        
+        h3 {
+            color: #444;
+        }
+        
+        p {
+            font-size: 1rem;
+            margin: 10px 0;
+            color: #222;
+        }
+        
+        .date {
+            font-size: 1rem;
+            color: #444;
+            margin-bottom: 20px;
+        }
+        
+        .button {
+            margin-top: 20px;
+            padding: 12px 24px;
+            background-color: #5C6BC0;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .button:hover {
+            background-color: #3F51B5;
+        }
+        
+        .footer {
+            margin-top: 30px;
+            color: #666;
+            font-size: 0.8rem;
+        }
+        
+        .footer a {
+            color: #3F51B5;
+            text-decoration: none;
+        }
+        
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="overlay"></div>
+    <div class="container">
+        <h1>Welcome, {{ student_data.full_name }}</h1>
+        <p class="date">Date: <span id="current-date"></span></p>
+        <img src="{{ url_for('static', filename='photos/' + student_data.erp_id + '_photo_1.JPG') }}" alt="Profile Photo" class="profile-photo">
+
+        <div class="registration-info">
+            <h3>Registration Information</h3>
+            <p><strong>Full Name:</strong> {{ student_data.full_name }}</p>
+            <p><strong>Date of Birth:</strong> {{ student_data.dob }}</p>
+            <p><strong>ERP ID:</strong> {{ student_data.erp_id }}</p>
+            <p><strong>Mobile Number:</strong> {{ student_data.mobile }}</p>
+            <p><strong>Class :</strong> BE AIML</p>
+        </div>
+
+        <div class="attendance">
+            <h3>Attendance Records</h3>
+            <p><strong>Total Classes Attended:</strong> {{ student_data.attendance_count }}</p>
+            <p><strong>Total Classes:</strong> {{ student_data.total_classes }}</p>
+        </div>
+
+        <button class="button" onclick="logout()">Logout</button>
+
+        <div class="footer">
+            <p>&copy; 2025 AI Monitoring System | <a href="#">Privacy Policy</a></p>
+        </div>
+    </div>
+
+    <script>
+        function logout() {
+            alert('Logged out successfully!');
+            window.location.href = '/';
+        }
+
+        // Set the current date
+        document.getElementById("current-date").textContent = new Date().toLocaleDateString();
+    </script>
+</body>
+
+</html>
