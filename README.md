@@ -47,9 +47,7 @@ An intelligent, real-time surveillance and attendance system using AI. This proj
 ├── requirements.txt
 └── README.md
 
-yaml
-Copy
-Edit
+
 
 ---
 
@@ -103,13 +101,12 @@ Visit: http://127.0.0.1:5000/ in your browser.
 
 🔁 Multi-camera support
 
-📃 License
-This project is licensed under the MIT License. See LICENSE for more information.
+
 
 🤝 Contributing
 Contributions, issues, and feature requests are welcome. Feel free to fork the repo and submit a pull request!
 
 📬 Contact
 Developer: Vishal Jadhav
-Email: [your-email@example.com]
+Email: v707jadhav@gmail.com
 LinkedIn: https://www.linkedin.com/in/vishal-jadhav-aiml/
