@@ -55,7 +55,7 @@ An intelligent, real-time surveillance and attendance system using AI. This proj
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/your-username/ai-realtime-monitoring.git
+git clone https://github.com/rootvishal/AI-Realtime-Monitoring-System.git
 cd ai-realtime-monitoring
 2. Create Virtual Environment (Recommended)
 bash
